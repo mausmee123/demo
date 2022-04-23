@@ -1,24 +1,38 @@
 import logo from './logo.svg';
 import './App.css';
+import Card from "./component/Card";
+import {useEffect} from "react";
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {showData} from "./redux/actions/action";
+
+const user = useSelector( state => state.user.data);
+const dispatch = useDispatch();
 
 function App() {
+
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  const loadUsers = () => {
+     axios.get("http://localhost:3000/users")
+    dispatch(showData(user))
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+      {
+       user.map ((card) => (
+           <Card key={card.id}
+                 name={card.name}
+                 username={card.username}
+                 email={card.email}
+                 phone={card.phone}/>
+       ))
+      }
+      </div>
   );
 }
 
