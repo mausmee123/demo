@@ -10,7 +10,7 @@ function userReducer(state = initialState, action) {
             console.log("SHOW_DATA", SHOW_DATA)
             return {
                 ...state,
-                data: [...state.data,action.payload]
+                data: action.data,
             }
         default:
             return state

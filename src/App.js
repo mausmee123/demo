@@ -6,34 +6,39 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {showData} from "./redux/actions/action";
 
-const user = useSelector( state => state.user.data);
-const dispatch = useDispatch();
 
 function App() {
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    console.log(user);
+
+    useEffect(() => {
+        dispatch(showData());
+    }, []);
 
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
+    // const loadUsers = async () => {
+    //     const result = await axios.get("http://localhost:3000/users")
+    //     console.log(result)
+    //     dispatch(showData(result.data))
+    // };
 
-  const loadUsers = () => {
-     axios.get("http://localhost:3000/users")
-    dispatch(showData(user))
-  };
 
-  return (
-      <div>
-      {
-       user.map ((card) => (
-           <Card key={card.id}
-                 name={card.name}
-                 username={card.username}
-                 email={card.email}
-                 phone={card.phone}/>
-       ))
-      }
-      </div>
-  );
+    return (
+        <div>
+            {
+                user.data.map((card, i) => {
+                    return (
+                    <Card key={i}
+                          name={card.name}
+                          username={card.username}
+                          email={card.email}
+                          phone={card.phone}/>
+                )})
+            }
+        </div>
+    );
 }
 
 export default App;
+
